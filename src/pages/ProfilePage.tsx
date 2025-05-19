@@ -84,13 +84,14 @@ const ProfilePage = () => {
     try {
       setSaving(true);
       
+      // Fix: Convert the Date to an ISO string which is compatible with Supabase
       const updates = {
         id: user.id,
         first_name: firstName,
         last_name: lastName,
         job_title: jobTitle,
         phone: phone,
-        updated_at: new Date()
+        updated_at: new Date().toISOString()
       };
       
       // Use upsert to create or update the profile
