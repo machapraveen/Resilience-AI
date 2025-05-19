@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle } from 'lucide-react';
@@ -21,7 +22,7 @@ interface UserProfile {
 
 const ProfilePage = () => {
   const { user } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
@@ -41,14 +42,34 @@ const ProfilePage = () => {
     const fetchProfile = async () => {
       try {
         if (!user) return;
+        setLoading(true);
         
-        // For now, we'll use the email from auth to populate some default values
-        // In a real app, we would fetch this from the profiles table
-        setFirstName(user.email?.split('@')[0] || '');
-        setLastName('');
-        setJobTitle('Administrator');
-        setPhone('');
+        // Try to fetch existing profile
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
         
+        if (error && error.code !== 'PGRST116') {
+          // PGRST116 means no rows returned, which is fine for new users
+          console.error('Error fetching profile:', error);
+          toast.error('Failed to load profile data');
+        }
+        
+        if (data) {
+          // Profile exists, use that data
+          setFirstName(data.first_name || '');
+          setLastName(data.last_name || '');
+          setJobTitle(data.job_title || '');
+          setPhone(data.phone || '');
+        } else {
+          // No profile yet, use email as default first name
+          setFirstName(user.email?.split('@')[0] || '');
+          setLastName('');
+          setJobTitle('Administrator');
+          setPhone('');
+        }
       } catch (err) {
         console.error('Unexpected error fetching profile:', err);
       } finally {
@@ -68,8 +89,26 @@ const ProfilePage = () => {
     try {
       setSaving(true);
       
-      // In a real app, this would update the profile in the database
-      // For now, we'll just show a success message
+      const updates = {
+        id: user.id,
+        first_name: firstName,
+        last_name: lastName,
+        job_title: jobTitle,
+        phone: phone,
+        updated_at: new Date()
+      };
+      
+      // Use upsert to create or update the profile
+      const { error: upsertError } = await supabase
+        .from('profiles')
+        .upsert(updates);
+      
+      if (upsertError) {
+        console.error('Error updating profile:', upsertError);
+        setError(upsertError.message);
+        toast.error('Failed to update profile');
+        return;
+      }
       
       toast.success('Profile updated successfully');
     } catch (err) {
@@ -97,7 +136,17 @@ const ProfilePage = () => {
     try {
       setSaving(true);
       
-      // For demo purposes, we'll just show a success message
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+      
+      if (error) {
+        console.error('Error updating password:', error);
+        setPasswordError(error.message);
+        toast.error('Failed to update password');
+        return;
+      }
+      
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
