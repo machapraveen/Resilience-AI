@@ -76,9 +76,9 @@ const Sidebar = () => {
       
       <div className="absolute bottom-4 left-0 right-0 px-3">
         <div className="bg-servicenow-lightgrey rounded-md p-3 text-xs">
-          <p className="font-medium mb-1">ResilienceAI</p>
-          <p className="text-muted-foreground">v1.0.0</p>
-          <p className="text-muted-foreground">x_YourCompany_resilience_ai</p>
+          <div className="font-medium mb-1">ResilienceAI</div>
+          <div className="text-muted-foreground">v1.0.0</div>
+          <div className="text-muted-foreground">x_YourCompany_resilience_ai</div>
         </div>
       </div>
     </aside>

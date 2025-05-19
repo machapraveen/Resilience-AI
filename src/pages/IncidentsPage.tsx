@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,8 +8,72 @@ import { mockIncidents } from '@/data/mockData';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { Incident } from '@/types';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const IncidentsPage = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [priorityFilter, setPriorityFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [autoRemediatedFilter, setAutoRemediatedFilter] = useState<string>('all');
+  const [filteredIncidents, setFilteredIncidents] = useState<Incident[]>(mockIncidents);
+
+  useEffect(() => {
+    let results = mockIncidents;
+    
+    // Filter by search term
+    if (searchTerm) {
+      const lowercaseSearchTerm = searchTerm.toLowerCase();
+      results = results.filter(incident => 
+        incident.number.toLowerCase().includes(lowercaseSearchTerm) ||
+        incident.shortDescription.toLowerCase().includes(lowercaseSearchTerm) ||
+        incident.serverName.toLowerCase().includes(lowercaseSearchTerm) ||
+        incident.assignmentGroup.toLowerCase().includes(lowercaseSearchTerm) ||
+        incident.description.toLowerCase().includes(lowercaseSearchTerm)
+      );
+    }
+    
+    // Filter by priority
+    if (priorityFilter !== 'all') {
+      results = results.filter(incident => incident.priority.toString() === priorityFilter);
+    }
+    
+    // Filter by status
+    if (statusFilter !== 'all') {
+      results = results.filter(incident => incident.status === statusFilter);
+    }
+    
+    // Filter by auto-remediated
+    if (autoRemediatedFilter !== 'all') {
+      const isAutoRemediated = autoRemediatedFilter === 'true';
+      results = results.filter(incident => incident.autoRemediated === isAutoRemediated);
+    }
+    
+    setFilteredIncidents(results);
+  }, [searchTerm, priorityFilter, statusFilter, autoRemediatedFilter]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+    setPriorityFilter('all');
+    setStatusFilter('all');
+    setAutoRemediatedFilter('all');
+  };
+
   const PriorityIndicator = ({ priority }: { priority: number }) => {
     const getColorClass = () => {
       switch (priority) {
@@ -63,12 +127,77 @@ const IncidentsPage = () => {
 
       <div className="flex flex-col md:flex-row gap-4 mb-6">
         <div className="flex-1">
-          <Input placeholder="Search incidents..." />
+          <Input 
+            placeholder="Search incidents..." 
+            value={searchTerm} 
+            onChange={handleSearch} 
+          />
         </div>
-        <Button variant="outline" className="flex items-center gap-2">
-          <Filter className="h-4 w-4" />
-          Filters
-        </Button>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="flex items-center gap-2">
+              <Filter className="h-4 w-4" />
+              Filters
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80">
+            <div className="space-y-4">
+              <h4 className="font-medium">Filter Incidents</h4>
+              
+              <div className="space-y-2">
+                <label htmlFor="priority-filter" className="text-sm">Priority</label>
+                <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+                  <SelectTrigger id="priority-filter">
+                    <SelectValue placeholder="Select priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Priorities</SelectItem>
+                    <SelectItem value="1">Priority 1 - Critical</SelectItem>
+                    <SelectItem value="2">Priority 2 - High</SelectItem>
+                    <SelectItem value="3">Priority 3 - Medium</SelectItem>
+                    <SelectItem value="4">Priority 4 - Low</SelectItem>
+                    <SelectItem value="5">Priority 5 - Planning</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <label htmlFor="status-filter" className="text-sm">Status</label>
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger id="status-filter">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Statuses</SelectItem>
+                    <SelectItem value="new">New</SelectItem>
+                    <SelectItem value="in_progress">In Progress</SelectItem>
+                    <SelectItem value="resolved">Resolved</SelectItem>
+                    <SelectItem value="closed">Closed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <label htmlFor="remediated-filter" className="text-sm">Auto-remediated</label>
+                <Select value={autoRemediatedFilter} onValueChange={setAutoRemediatedFilter}>
+                  <SelectTrigger id="remediated-filter">
+                    <SelectValue placeholder="Auto-remediated" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All</SelectItem>
+                    <SelectItem value="true">Auto-remediated</SelectItem>
+                    <SelectItem value="false">Manual resolution</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="flex justify-between">
+                <Button variant="outline" size="sm" onClick={handleReset}>Reset</Button>
+                <Button size="sm">Apply Filters</Button>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
 
       <Card>
@@ -91,7 +220,7 @@ const IncidentsPage = () => {
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {mockIncidents.map((incident) => (
+                {filteredIncidents.map((incident) => (
                   <tr key={incident.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3">
                       <PriorityIndicator priority={incident.priority} />
@@ -128,7 +257,7 @@ const IncidentsPage = () => {
                     </td>
                   </tr>
                 ))}
-                {mockIncidents.length === 0 && (
+                {filteredIncidents.length === 0 && (
                   <tr>
                     <td colSpan={8} className="px-4 py-6 text-center text-muted-foreground">
                       No incidents found

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,8 +8,70 @@ import { mockChangeRequests } from '@/data/mockData';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { ChangeRequest } from '@/types';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const ChangesPage = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [typeFilter, setTypeFilter] = useState('all');
+  const [riskFilter, setRiskFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [filteredChanges, setFilteredChanges] = useState<ChangeRequest[]>(mockChangeRequests);
+
+  useEffect(() => {
+    let results = mockChangeRequests;
+    
+    // Filter by search term
+    if (searchTerm) {
+      const lowercaseSearchTerm = searchTerm.toLowerCase();
+      results = results.filter(change => 
+        change.number.toLowerCase().includes(lowercaseSearchTerm) ||
+        change.shortDescription.toLowerCase().includes(lowercaseSearchTerm) ||
+        change.serverName.toLowerCase().includes(lowercaseSearchTerm) ||
+        change.assignmentGroup.toLowerCase().includes(lowercaseSearchTerm)
+      );
+    }
+    
+    // Filter by type
+    if (typeFilter !== 'all') {
+      results = results.filter(change => change.type === typeFilter);
+    }
+    
+    // Filter by risk
+    if (riskFilter !== 'all') {
+      results = results.filter(change => change.risk === riskFilter);
+    }
+    
+    // Filter by status
+    if (statusFilter !== 'all') {
+      results = results.filter(change => change.status === statusFilter);
+    }
+    
+    setFilteredChanges(results);
+  }, [searchTerm, typeFilter, riskFilter, statusFilter]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+    setTypeFilter('all');
+    setRiskFilter('all');
+    setStatusFilter('all');
+  };
+
   const RiskBadge = ({ risk }: { risk: string }) => {
     const getRiskProps = () => {
       switch (risk) {
@@ -98,12 +160,79 @@ const ChangesPage = () => {
 
       <div className="flex flex-col md:flex-row gap-4 mb-6">
         <div className="flex-1">
-          <Input placeholder="Search changes..." />
+          <Input 
+            placeholder="Search changes..." 
+            value={searchTerm} 
+            onChange={handleSearch}
+          />
         </div>
-        <Button variant="outline" className="flex items-center gap-2">
-          <Filter className="h-4 w-4" />
-          Filters
-        </Button>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="flex items-center gap-2">
+              <Filter className="h-4 w-4" />
+              Filters
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80">
+            <div className="space-y-4">
+              <h4 className="font-medium">Filter Changes</h4>
+              
+              <div className="space-y-2">
+                <label htmlFor="type-filter" className="text-sm">Type</label>
+                <Select value={typeFilter} onValueChange={setTypeFilter}>
+                  <SelectTrigger id="type-filter">
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Types</SelectItem>
+                    <SelectItem value="normal">Normal</SelectItem>
+                    <SelectItem value="standard">Standard</SelectItem>
+                    <SelectItem value="emergency">Emergency</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <label htmlFor="risk-filter" className="text-sm">Risk</label>
+                <Select value={riskFilter} onValueChange={setRiskFilter}>
+                  <SelectTrigger id="risk-filter">
+                    <SelectValue placeholder="Select risk" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Risks</SelectItem>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                    <SelectItem value="critical">Critical</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <label htmlFor="status-filter" className="text-sm">Status</label>
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger id="status-filter">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Statuses</SelectItem>
+                    <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="assess">Assess</SelectItem>
+                    <SelectItem value="approve">Approve</SelectItem>
+                    <SelectItem value="implement">Implement</SelectItem>
+                    <SelectItem value="review">Review</SelectItem>
+                    <SelectItem value="closed">Closed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="flex justify-between">
+                <Button variant="outline" size="sm" onClick={handleReset}>Reset</Button>
+                <Button size="sm">Apply Filters</Button>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
 
       <Card>
@@ -127,7 +256,7 @@ const ChangesPage = () => {
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {mockChangeRequests.map((change) => (
+                {filteredChanges.map((change) => (
                   <tr key={change.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3 font-medium text-servicenow-blue">
                       {change.number}
@@ -162,7 +291,7 @@ const ChangesPage = () => {
                     </td>
                   </tr>
                 ))}
-                {mockChangeRequests.length === 0 && (
+                {filteredChanges.length === 0 && (
                   <tr>
                     <td colSpan={9} className="px-4 py-6 text-center text-muted-foreground">
                       No change requests found

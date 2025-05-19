@@ -92,61 +92,79 @@ export const mockServers: Server[] = [
     id: "srv-001",
     name: "prod-web-01",
     ip: "10.1.0.101",
+    ipAddress: "10.1.0.101",
     status: "online",
     riskScore: 25,
     cpuMetrics: generateCPUMetrics(24, 15, 40, 10),
     lastUpdated: minutesAgo(5),
     environment: "production",
     assignmentGroup: "Cloud Operations",
-    location: "us-east-1a"
+    location: "us-east-1a",
+    os: "Linux 5.15.0",
+    lastBooted: daysAgo(15)
   },
   {
     id: "srv-002",
     name: "prod-web-02",
     ip: "10.1.0.102",
+    ipAddress: "10.1.0.102",
     status: "online",
     riskScore: 40,
     cpuMetrics: generateCPUMetrics(24, 15, 45, 15),
     lastUpdated: minutesAgo(3),
     environment: "production",
     assignmentGroup: "Cloud Operations",
-    location: "us-east-1b"
+    location: "us-east-1b",
+    os: "Linux 5.15.0",
+    lastBooted: daysAgo(7)
   },
   {
     id: "srv-003",
     name: "prod-db-01",
     ip: "10.1.0.201",
+    ipAddress: "10.1.0.201",
     status: "online",
     riskScore: 85, // High risk
     cpuMetrics: generateCPUMetrics(24, 15, 50, 10, [{ hour: 1, value: 92 }]), // Spike 1 hour ago
     lastUpdated: minutesAgo(2),
     environment: "production",
     assignmentGroup: "Database Operations",
-    location: "us-east-1a"
+    location: "us-east-1a",
+    os: "Oracle Linux 8",
+    lastBooted: daysAgo(30),
+    statusMessage: "High CPU utilization predicted in 5 minutes"
   },
   {
     id: "srv-004",
     name: "prod-cache-01",
     ip: "10.1.0.150",
+    ipAddress: "10.1.0.150",
     status: "auto-remediated",
     riskScore: 60,
     cpuMetrics: generateCPUMetrics(24, 15, 55, 20, [{ hour: 2, value: 88 }]), // Spike 2 hours ago
     lastUpdated: minutesAgo(15),
     environment: "production",
     assignmentGroup: "Cloud Operations",
-    location: "us-east-1c"
+    location: "us-east-1c",
+    os: "CentOS 7",
+    lastBooted: minutesAgo(30),
+    statusMessage: "Auto-remediated: Service restarted after CPU spike"
   },
   {
     id: "srv-005",
     name: "stage-web-01",
     ip: "10.2.0.101",
+    ipAddress: "10.2.0.101",
     status: "maintenance",
     riskScore: 15,
     cpuMetrics: generateCPUMetrics(24, 15, 30, 10),
     lastUpdated: hoursAgo(2),
     environment: "staging",
     assignmentGroup: "Cloud Operations",
-    location: "us-east-1a"
+    location: "us-east-1a",
+    os: "Ubuntu 22.04",
+    lastBooted: daysAgo(2),
+    statusMessage: "Scheduled maintenance: Security patches"
   },
 ];
 
@@ -164,7 +182,8 @@ export const mockIncidents: Incident[] = [
     assignmentGroup: "Database Operations",
     createdAt: minutesAgo(5),
     updatedAt: minutesAgo(2),
-    autoRemediated: true
+    autoRemediated: true,
+    resolutionNotes: "Auto-remediation in progress. Monitoring for effectiveness."
   },
   {
     id: "inc-002",
@@ -178,7 +197,8 @@ export const mockIncidents: Incident[] = [
     assignmentGroup: "Cloud Operations",
     createdAt: hoursAgo(2),
     updatedAt: hoursAgo(1),
-    autoRemediated: true
+    autoRemediated: true,
+    resolutionNotes: "Service was automatically restarted and is now operating within normal parameters."
   },
 ];
 
@@ -191,6 +211,7 @@ export const mockAuditLogs: AuditLog[] = [
     actor: "resai_AnomalyModel",
     serverId: "srv-003",
     serverName: "prod-db-01",
+    resourceId: "srv-003",
     riskScore: 85,
     outcome: "Initiated remediation",
     details: "CPU utilization predicted to exceed 85% threshold within 5 minutes"
@@ -202,6 +223,7 @@ export const mockAuditLogs: AuditLog[] = [
     actor: "resai_RiskCheck",
     serverId: "srv-003",
     serverName: "prod-db-01",
+    resourceId: "srv-003",
     riskScore: 85,
     outcome: "High risk detected",
     details: "Server risk score >= 70, creating change request"
@@ -213,6 +235,7 @@ export const mockAuditLogs: AuditLog[] = [
     actor: "resai_AutoRemediateBot",
     serverId: "srv-003",
     serverName: "prod-db-01",
+    resourceId: "chg-001",
     riskScore: 85,
     outcome: "Change request created",
     details: "Emergency change CHG0010055 created for Security Operations review"
@@ -224,6 +247,7 @@ export const mockAuditLogs: AuditLog[] = [
     actor: "resai_AnomalyModel",
     serverId: "srv-004",
     serverName: "prod-cache-01",
+    resourceId: "srv-004",
     riskScore: 60,
     outcome: "Initiated remediation",
     details: "CPU utilization exceeded 85% threshold"
@@ -235,6 +259,7 @@ export const mockAuditLogs: AuditLog[] = [
     actor: "resai_RemediationFlow",
     serverId: "srv-004",
     serverName: "prod-cache-01",
+    resourceId: "srv-004",
     riskScore: 60,
     outcome: "Success",
     details: "Virtual machine restarted successfully"
@@ -255,7 +280,10 @@ export const mockChangeRequests: ChangeRequest[] = [
     status: "approve",
     assignmentGroup: "Security Operations",
     createdAt: minutesAgo(3),
-    updatedAt: minutesAgo(2)
+    updatedAt: minutesAgo(2),
+    relatedIncidentId: "inc-001",
+    plannedStart: minutesAgo(2),
+    summary: "Database server requires immediate resource allocation to prevent performance degradation."
   },
 ];
 
