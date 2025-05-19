@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Server } from '@/types';
 import { Link } from 'react-router-dom';
-import { AlertCircle, ArrowUpRight, Server as ServerIcon, ShieldAlert } from 'lucide-react';
+import { AlertCircle, ArrowUpRight, ShieldAlert } from 'lucide-react';
 
 interface ServerStatusCardProps {
   server: Server;
@@ -54,7 +54,7 @@ const ServerStatusCard: React.FC<ServerStatusCardProps> = ({ server }) => {
         <div className="grid grid-cols-2 gap-2 mb-4 text-xs">
           <div>
             <p className="text-muted-foreground">IP Address</p>
-            <p className="font-medium">{server.ipAddress}</p>
+            <p className="font-medium">{server.ipAddress || server.ip}</p>
           </div>
           <div>
             <p className="text-muted-foreground">CPU</p>
@@ -67,7 +67,7 @@ const ServerStatusCard: React.FC<ServerStatusCardProps> = ({ server }) => {
           </div>
           <div>
             <p className="text-muted-foreground">OS</p>
-            <p className="font-medium">{server.os}</p>
+            <p className="font-medium">{server.os || 'N/A'}</p>
           </div>
           <div>
             <p className="text-muted-foreground">Risk Score</p>

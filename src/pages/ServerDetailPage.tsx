@@ -21,7 +21,7 @@ const ServerDetailPage = () => {
   const relatedIncidents = mockIncidents.filter(i => i.serverId === serverId);
   
   // Find audit logs related to this server
-  const relatedLogs = mockAuditLogs.filter(log => log.resourceId === serverId);
+  const relatedLogs = mockAuditLogs.filter(log => log.resourceId === serverId || log.serverId === serverId);
   
   if (!server) {
     return (
@@ -47,6 +47,26 @@ const ServerDetailPage = () => {
     }
   };
 
+  // Format date safely with a fallback
+  const formatDate = (date: Date | undefined) => {
+    if (!date) return 'N/A';
+    return date.toLocaleDateString();
+  };
+
+  // Get the last audit log date safely
+  const getLastAuditDate = () => {
+    if (relatedLogs.length === 0) return 'Never';
+    
+    const timestamps = relatedLogs.map(log => log.timestamp.getTime());
+    if (timestamps.length === 0) return 'Never';
+    
+    const maxTimestamp = Math.max(...timestamps);
+    const date = new Date(maxTimestamp);
+    
+    return date.toLocaleDateString() + ' ' + 
+      date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  };
+
   return (
     <Layout>
       <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -63,8 +83,8 @@ const ServerDetailPage = () => {
           </Badge>
           
           <Badge variant="outline" className={server.riskScore >= 70 ? 'border-risk-high text-risk-high' : 
-                                           server.riskScore >= 40 ? 'border-risk-medium text-risk-medium' : 
-                                           'border-risk-low text-risk-low'}>
+                                          server.riskScore >= 40 ? 'border-risk-medium text-risk-medium' : 
+                                          'border-risk-low text-risk-low'}>
             <ShieldAlert className="h-3.5 w-3.5 mr-1" />
             Risk Score: {server.riskScore}
           </Badge>
@@ -82,7 +102,9 @@ const ServerDetailPage = () => {
             <div className="flex items-center">
               <ServerIcon className="h-5 w-5 text-servicenow-blue mr-2" />
               <span className="text-2xl font-bold">
-                {server.cpuMetrics[server.cpuMetrics.length - 1].value}%
+                {server.cpuMetrics && server.cpuMetrics.length > 0 ? 
+                 `${server.cpuMetrics[server.cpuMetrics.length - 1].value}%` : 
+                 'N/A'}
               </span>
             </div>
           </CardContent>
@@ -112,13 +134,7 @@ const ServerDetailPage = () => {
             <div className="flex items-center">
               <Clock className="h-5 w-5 text-servicenow-blue mr-2" />
               <span className="text-sm">
-                {relatedLogs.length > 0 
-                  ? new Date(Math.max(...relatedLogs.map(log => log.timestamp.getTime())))
-                      .toLocaleDateString() + ' ' + 
-                    new Date(Math.max(...relatedLogs.map(log => log.timestamp.getTime())))
-                      .toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-                  : 'Never'
-                }
+                {getLastAuditDate()}
               </span>
             </div>
           </CardContent>
@@ -134,7 +150,7 @@ const ServerDetailPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">IP Address</p>
-                <p>{server.ipAddress}</p>
+                <p>{server.ipAddress || server.ip}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">Location</p>
@@ -146,11 +162,11 @@ const ServerDetailPage = () => {
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">Operating System</p>
-                <p>{server.os}</p>
+                <p>{server.os || 'N/A'}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">Last Booted</p>
-                <p>{server.lastBooted.toLocaleDateString()}</p>
+                <p>{formatDate(server.lastBooted)}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-1">Assignment Group</p>
