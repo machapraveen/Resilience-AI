@@ -35,7 +35,7 @@ const NavItem = ({ to, icon, label }: NavItemProps) => (
 
 const Sidebar = () => {
   return (
-    <aside className="border-r border-border bg-white w-60 p-3 hidden md:block">
+    <aside className="border-r border-border bg-white w-60 p-3 hidden md:block h-full relative">
       <div className="space-y-1 mt-2">
         <NavItem 
           to="/" 
