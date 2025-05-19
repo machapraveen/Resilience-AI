@@ -11,14 +11,9 @@ import { toast } from 'sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tables } from '@/integrations/supabase/types';
 
-interface UserProfile {
-  id: string;
-  first_name: string;
-  last_name: string;
-  job_title: string;
-  phone: string;
-}
+type Profile = Tables<'profiles'>;
 
 const ProfilePage = () => {
   const { user } = useAuth();
