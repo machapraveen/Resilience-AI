@@ -1,73 +1,88 @@
-# Welcome to your Lovable project
+# ResilienceAI WebApp
 
-## Project info
+## Overview
+ResilienceAI is a front-end companion for the ResilienceAI ServiceNow application. It provides a web interface that interacts with ServiceNow APIs to visualize predictions, remediation actions, and risk data in real time.
 
-**URL**: https://lovable.dev/projects/c36b83b4-ff15-4dbe-b497-acb5867022f5
+## Features
+- **Dashboard**: Real-time charts for active predictions, incident status, and risk heatmap.
+- **Notifications**: In-app alerts when CPU spikes or remediation events occur.
+- **Interactive Queries**: Users can ask about system status via chat-like UI.
 
-## How can I edit this code?
+## Getting Started
 
-There are several ways of editing your application.
+### Prerequisites
+- Node.js v18+
+- npm or yarn
+- ServiceNow developer instance (Xanadu or Yokohama) with the ResilienceAI scoped app deployed
 
-**Use Lovable**
+### Installation
+1. Clone the repo:
+   ```bash
+   git clone <repo-url>
+   cd resilienceai-webapp
+````
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c36b83b4-ff15-4dbe-b497-acb5867022f5) and start prompting.
+2. Install dependencies:
 
-Changes made via Lovable will be committed automatically to this repo.
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+3. Configure environment variables:
 
-**Use your preferred IDE**
+   ```env
+   VITE_SNOW_INSTANCE_URL=https://<your-instance>.service-now.com
+   VITE_API_TOKEN=<your-api-token>
+   ```
+4. Run the development server:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+   ```bash
+   npm run dev
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+   Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-Follow these steps:
+## Project Structure
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+resilienceai-webapp/
+├── public/
+│   └── assets/
+│       └── opengraph-image.png
+├── src/
+│   ├── components/   # Reusable UI components
+│   ├── hooks/        # Custom React hooks
+│   ├── pages/        # Route components
+│   ├── services/     # API client and ServiceNow interactions
+│   ├── App.tsx       # Main application entry
+│   └── main.tsx      # Vite bootstrap
+├── index.html
+├── package.json
+├── tailwind.config.js
+└── README.md
 ```
 
-**Edit a file directly in GitHub**
+## Future Development
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+* **Authentication**: Integrate OAuth2 for secure, per-user access to ServiceNow APIs.
+* **Role-Based Views**: Customize dashboard widgets based on user roles (Admin, DevOps, Security).
+* **ChatOps Integration**: Embed Slack/MS Teams chat widget for conversational queries.
+* **Offline Mode**: Cache recent data and allow read-only access when disconnected.
+* **Internationalization (i18n)**: Support multiple languages.
+* **Theming**: Dark/light mode toggle with accessible color palettes.
 
-**Use GitHub Codespaces**
+## Contributing
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feat/my-feature`).
+3. Commit your changes (`git commit -m "feat: add feature"`).
+4. Push to the branch (`git push origin feat/my-feature`).
+5. Open a pull request.
 
-## What technologies are used for this project?
+## License
 
-This project is built with:
+MIT © ResilienceAI Team
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/c36b83b4-ff15-4dbe-b497-acb5867022f5) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+```
+```
