@@ -84,6 +84,10 @@ const ProfilePage = () => {
     try {
       setSaving(true);
       
+<<<<<<< HEAD
+=======
+      // Fix: Convert the Date to an ISO string which is compatible with Supabase
+>>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
       const updates = {
         id: user.id,
         first_name: firstName,

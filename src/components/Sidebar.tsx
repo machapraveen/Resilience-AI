@@ -8,8 +8,12 @@ import {
   FileStack, 
   History, 
   MessageCircle,
+<<<<<<< HEAD
   ShieldAlert,
   Brain
+=======
+  ShieldAlert
+>>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -44,11 +48,14 @@ const Sidebar = () => {
           label="Dashboard" 
         />
         <NavItem 
+<<<<<<< HEAD
           to="/control-center" 
           icon={<Brain className="h-4 w-4" />} 
           label="Control Center" 
         />
         <NavItem 
+=======
+>>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
           to="/servers" 
           icon={<Server className="h-4 w-4" />} 
           label="Servers" 
