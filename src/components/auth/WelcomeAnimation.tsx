@@ -1,13 +1,5 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import { Shield, Server, AlertCircle, Check, BarChart, Brain, Eye, Zap, TrendingUp, Lock } from 'lucide-react';
-=======
-
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Shield, Server, AlertCircle, Check, BarChart, Brain } from 'lucide-react';
-import { Button } from '@/components/ui/button';
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
 
 interface WelcomeAnimationProps {
   onComplete: () => void;
@@ -18,7 +10,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
   
   const steps = [
     {
-<<<<<<< HEAD
       title: "ResilienceAI",
       subtitle: "Enterprise IT Intelligence Platform",
       description: "Transform your IT operations with AI-powered resilience and automation",
@@ -30,11 +21,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
         { icon: <Shield className="h-6 w-6" />, text: "Enterprise\nSecurity" }
       ],
       gradient: "from-blue-500 via-purple-500 to-purple-600",
-=======
-      title: "Welcome to ResilienceAI",
-      description: "Your AI-powered platform for IT operations resilience",
-      icon: <Brain className="h-12 w-12 text-servicenow-blue" />,
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
       animation: {
         initial: { opacity: 0, y: 50 },
         animate: { opacity: 1, y: 0 },
@@ -42,7 +28,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
       }
     },
     {
-<<<<<<< HEAD
       title: "Intelligent Prevention",
       subtitle: "Stop Problems Before They Start",
       description: "Advanced AI algorithms continuously analyze patterns to predict and prevent incidents",
@@ -53,11 +38,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
         { value: "85%", label: "Prevention" },
         { value: "60%", label: "MTTR Cut" }
       ],
-=======
-      title: "Incident Prevention",
-      description: "Detect anomalies before they become incidents",
-      icon: <AlertCircle className="h-12 w-12 text-risk-high" />,
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
       animation: {
         initial: { opacity: 0, scale: 0.8 },
         animate: { opacity: 1, scale: 1 },
@@ -65,7 +45,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
       }
     },
     {
-<<<<<<< HEAD
       title: "Autonomous Remediation",
       subtitle: "Self-Healing Infrastructure",
       description: "Intelligent automation instantly resolves common issues without human intervention",
@@ -77,11 +56,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
         "Service restart protocols",
         "Performance optimization"
       ],
-=======
-      title: "Automatic Remediation",
-      description: "Resolve common issues automatically without human intervention",
-      icon: <Check className="h-12 w-12 text-risk-low" />,
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
       animation: {
         initial: { opacity: 0, x: -50 },
         animate: { opacity: 1, x: 0 },
@@ -89,7 +63,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
       }
     },
     {
-<<<<<<< HEAD
       title: "Unified Server Management",
       subtitle: "Complete Infrastructure Visibility",
       description: "Monitor, manage, and optimize all your servers from a single intelligent dashboard",
@@ -100,11 +73,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
         { icon: <TrendingUp className="h-5 w-5" />, label: "Regions", value: "12" },
         { icon: <BarChart className="h-5 w-5" />, label: "Efficiency", value: "94%" }
       ],
-=======
-      title: "Server Management",
-      description: "Monitor and manage all your servers from a single dashboard",
-      icon: <Server className="h-12 w-12 text-servicenow-blue" />,
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
       animation: {
         initial: { opacity: 0, rotate: -10 },
         animate: { opacity: 1, rotate: 0 },
@@ -112,7 +80,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
       }
     },
     {
-<<<<<<< HEAD
       title: "Predictive Risk Analytics",
       subtitle: "Data-Driven Decision Making", 
       description: "Advanced analytics identify, assess, and prioritize risks across your infrastructure",
@@ -124,11 +91,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
         { level: "Medium", count: 15, color: "bg-yellow-400" },
         { level: "Low", count: 23, color: "bg-green-400" }
       ],
-=======
-      title: "Risk Analytics",
-      description: "Identify and prioritize risks across your infrastructure",
-      icon: <BarChart className="h-12 w-12 text-amber-500" />,
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
       animation: {
         initial: { opacity: 0, y: -50 },
         animate: { opacity: 1, y: 0 },
@@ -136,7 +98,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
       }
     },
     {
-<<<<<<< HEAD
       title: "Enterprise Security",
       subtitle: "Zero-Trust Architecture",
       description: "Military-grade security protocols protect your infrastructure with continuous monitoring",
@@ -148,11 +109,6 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
         { feature: "Threat Detection", status: "Real-time" },
         { feature: "Compliance Monitor", status: "SOC 2" }
       ],
-=======
-      title: "Security Focused",
-      description: "Protect your infrastructure with advanced security measures",
-      icon: <Shield className="h-12 w-12 text-green-600" />,
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
       animation: {
         initial: { opacity: 0, scale: 1.2 },
         animate: { opacity: 1, scale: 1 },
@@ -162,17 +118,10 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
   ];
 
   const currentStep = steps[step];
-<<<<<<< HEAD
   const progress = ((step + 1) / steps.length) * 100;
   
   useEffect(() => {
     if (step === steps.length) {
-=======
-  
-  useEffect(() => {
-    if (step === steps.length) {
-      // Animation complete
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
       setTimeout(() => {
         onComplete();
       }, 500);
@@ -191,31 +140,16 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
 
   if (step === steps.length) {
     return (
-<<<<<<< HEAD
       <div className="min-h-[500px] flex items-center justify-center bg-gradient-to-br from-blue-600 to-purple-700 transition-opacity duration-500">
         <div className="text-center text-white">
           <div className="h-12 w-12 border-4 border-t-white border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin mx-auto"></div>
           <p className="mt-4 text-white/80">Initializing ResilienceAI...</p>
         </div>
       </div>
-=======
-      <motion.div
-        initial={{ opacity: 1 }}
-        animate={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-        className="min-h-[400px] flex items-center justify-center"
-      >
-        <div className="text-center">
-          <div className="h-12 w-12 border-4 border-t-servicenow-blue border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Getting everything ready...</p>
-        </div>
-      </motion.div>
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
     );
   }
 
   return (
-<<<<<<< HEAD
     <div className="min-h-[500px] relative overflow-hidden">
       {/* Dynamic Background */}
       <div 
@@ -443,53 +377,8 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
           50% { transform: translateY(-30px) translateX(-20px); }
         }
       `}</style>
-=======
-    <div className="min-h-[400px] flex flex-col">
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
-        <motion.div
-          key={step}
-          initial={currentStep.animation.initial}
-          animate={currentStep.animation.animate}
-          transition={currentStep.animation.transition}
-          className="text-center"
-        >
-          <div className="flex justify-center mb-6">
-            {currentStep.icon}
-          </div>
-          <h2 className="text-2xl font-bold mb-2">{currentStep.title}</h2>
-          <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-            {currentStep.description}
-          </p>
-        </motion.div>
-      </div>
-      
-      <div className="p-4 flex justify-between items-center">
-        <div className="flex gap-1">
-          {steps.map((_, i) => (
-            <motion.div 
-              key={i}
-              className={`h-2 w-8 rounded-full ${i === step ? 'bg-servicenow-blue' : 'bg-gray-200'}`}
-              animate={{ 
-                backgroundColor: i === step ? 'rgb(59, 130, 246)' : 'rgb(229, 231, 235)'
-              }}
-            />
-          ))}
-        </div>
-        
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={handleSkip}>Skip</Button>
-          <Button onClick={handleNext}>
-            {step === steps.length - 1 ? 'Get Started' : 'Next'}
-          </Button>
-        </div>
-      </div>
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
     </div>
   );
 };
 
-<<<<<<< HEAD
 export default WelcomeAnimation;
-=======
-export default WelcomeAnimation;
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9

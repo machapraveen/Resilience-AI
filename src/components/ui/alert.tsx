@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> 8077c72c36c33a99364d5ae1a5e71a27407a8fb9
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
