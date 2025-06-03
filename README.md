@@ -1,7 +1,16 @@
+Got it! You’d like to **add your live prototype link** to the README file so the hackathon managers can easily access it. A great place to add it is **under the Overview section**—that’s where people usually look for links like that.
+
+Here’s your updated README content **with the prototype link inserted**. Just **copy and replace your current README.md** file with this version:
+
+---
+
+````markdown
 # ResilienceAI WebApp
 
 ## Overview
 ResilienceAI is a front-end companion for the ResilienceAI ServiceNow application. It provides a web interface that interacts with ServiceNow APIs to visualize predictions, remediation actions, and risk data in real time.
+
+👉 **Prototype Link**: [View the Live Prototype Here](https://your-prototype-link.com)
 
 ## Features
 - **Dashboard**: Real-time charts for active predictions, incident status, and risk heatmap.
@@ -29,12 +38,14 @@ ResilienceAI is a front-end companion for the ResilienceAI ServiceNow applicatio
    # or
    yarn install
    ```
+
 3. Configure environment variables:
 
    ```env
    VITE_SNOW_INSTANCE_URL=https://<your-instance>.service-now.com
    VITE_API_TOKEN=<your-api-token>
    ```
+
 4. Run the development server:
 
    ```bash
@@ -84,5 +95,30 @@ resilienceai-webapp/
 
 MIT © ResilienceAI Team
 
+````
+
+---
+
+### 🚨 Important:
+
+🔗 **Replace `https://your-prototype-link.com` with the actual link to your live prototype.**  
+Example:
+```markdown
+👉 **Prototype Link**: [View the Live Prototype Here](https://prototype.vercel.app)
+````
+
+---
+
+### 🚀 Steps to Commit & Push the README Update:
+
+1️⃣ Open your project folder and update `README.md` with the above content.
+2️⃣ Save the file.
+3️⃣ Open your terminal (in the project directory) and run:
+
+```bash
+git add README.md
+git commit -m "docs: add prototype link to README"
+git push origin main
 ```
-```
+
+---
