@@ -1,12 +1,12 @@
 ---
 
-
+````markdown
 # ResilienceAI WebApp
 
 ## Overview
 ResilienceAI is a front-end companion for the ResilienceAI ServiceNow application. It provides a web interface that interacts with ServiceNow APIs to visualize predictions, remediation actions, and risk data in real time.
 
-👉 **Prototype Link**: [View the Live Prototype Here](resilience-ai.netlify.app)
+👉 **Prototype Link**: [View the Live Prototype Here](https://resilience-ai.netlify.app)
 
 ## Features
 - **Dashboard**: Real-time charts for active predictions, incident status, and risk heatmap.
@@ -95,26 +95,16 @@ MIT © ResilienceAI Team
 
 ---
 
-### 🚨 Important:
-
-🔗 **Replace `https://your-prototype-link.com` with the actual link to your live prototype.**  
-Example:
-```markdown
-👉 **Prototype Link**: [View the Live Prototype Here](https://prototype.vercel.app)
-````
-
----
-
 ### 🚀 Steps to Commit & Push the README Update:
 
-1️⃣ Open your project folder and update `README.md` with the above content.
-2️⃣ Save the file.
-3️⃣ Open your terminal (in the project directory) and run:
+1️⃣ Replace your local `README.md` file with this updated content.  
+2️⃣ Save the file.  
+3️⃣ In the terminal, navigate to your project directory and run:
 
 ```bash
 git add README.md
 git commit -m "docs: add prototype link to README"
 git push origin main
-```
+````
 
 ---
