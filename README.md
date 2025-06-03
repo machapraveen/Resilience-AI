@@ -1,6 +1,3 @@
----
-
-````markdown
 # ResilienceAI WebApp
 
 ## Overview
@@ -25,7 +22,7 @@ ResilienceAI is a front-end companion for the ResilienceAI ServiceNow applicatio
    ```bash
    git clone <repo-url>
    cd resilienceai-webapp
-````
+   ```
 
 2. Install dependencies:
 
@@ -93,7 +90,7 @@ MIT © ResilienceAI Team
 
 ````
 
----
+
 
 ### 🚀 Steps to Commit & Push the README Update:
 
