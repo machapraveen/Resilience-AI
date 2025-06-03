@@ -1,7 +1,3 @@
-Got it! You’d like to **add your live prototype link** to the README file so the hackathon managers can easily access it. A great place to add it is **under the Overview section**—that’s where people usually look for links like that.
-
-Here’s your updated README content **with the prototype link inserted**. Just **copy and replace your current README.md** file with this version:
-
 ---
 
 ````markdown
@@ -10,7 +6,7 @@ Here’s your updated README content **with the prototype link inserted**. Just 
 ## Overview
 ResilienceAI is a front-end companion for the ResilienceAI ServiceNow application. It provides a web interface that interacts with ServiceNow APIs to visualize predictions, remediation actions, and risk data in real time.
 
-👉 **Prototype Link**: [View the Live Prototype Here](https://your-prototype-link.com)
+👉 **Prototype Link**: [View the Live Prototype Here](resilience-ai.netlify.app)
 
 ## Features
 - **Dashboard**: Real-time charts for active predictions, incident status, and risk heatmap.
