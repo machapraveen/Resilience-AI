@@ -3,6 +3,8 @@
 ## Overview
 ResilienceAI is a front-end companion for the ResilienceAI ServiceNow application. It provides a web interface that interacts with ServiceNow APIs to visualize predictions, remediation actions, and risk data in real time.
 
+👉 **Prototype Link**: [View the Live Prototype Here](https://resilience-ai.netlify.app)
+
 ## Features
 - **Dashboard**: Real-time charts for active predictions, incident status, and risk heatmap.
 - **Notifications**: In-app alerts when CPU spikes or remediation events occur.
@@ -20,7 +22,7 @@ ResilienceAI is a front-end companion for the ResilienceAI ServiceNow applicatio
    ```bash
    git clone <repo-url>
    cd resilienceai-webapp
-````
+   ```
 
 2. Install dependencies:
 
@@ -29,12 +31,14 @@ ResilienceAI is a front-end companion for the ResilienceAI ServiceNow applicatio
    # or
    yarn install
    ```
+
 3. Configure environment variables:
 
    ```env
    VITE_SNOW_INSTANCE_URL=https://<your-instance>.service-now.com
    VITE_API_TOKEN=<your-api-token>
    ```
+
 4. Run the development server:
 
    ```bash
@@ -84,5 +88,17 @@ resilienceai-webapp/
 
 MIT © ResilienceAI Team
 
-```
-```
+````
+### 🚀 Steps to Commit & Push the README Update:
+
+1️⃣ Replace your local `README.md` file with this updated content.  
+2️⃣ Save the file.  
+3️⃣ In the terminal, navigate to your project directory and run:
+
+```bash
+git add README.md
+git commit -m "docs: add prototype link to README"
+git push origin main
+````
+
+---
