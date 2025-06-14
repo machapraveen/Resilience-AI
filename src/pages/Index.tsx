@@ -1,12 +1,11 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
-import { AlertCircle, Server as ServerIcon, Cpu, Activity, Shield } from 'lucide-react';
-import { mockServers, mockIncidents, mockAuditLogs, mockChangeRequests } from '@/data/mockData';
+import { AlertCircle, Server as ServerIcon, Cpu, Activity, Shield, Wifi, WifiOff, RefreshCw } from 'lucide-react';
+import { useServiceNowData } from '@/hooks/useServiceNowData';
 import ServerStatusCard from '@/components/dashboard/ServerStatusCard';
 import IncidentList from '@/components/dashboard/IncidentList';
 import AuditLogTable from '@/components/dashboard/AuditLogTable';
@@ -14,20 +13,36 @@ import CPUMetricsChart from '@/components/dashboard/CPUMetricsChart';
 import RiskHeatmap from '@/components/dashboard/RiskHeatmap';
 
 const Dashboard = () => {
+  // 🚀 NOW USING REAL SERVICENOW DATA!
+  const {
+    servers,
+    incidents,
+    auditLogs,
+    systemHealth,
+    loading,
+    error,
+    isConnected,
+    lastUpdated,
+    refreshData,
+    triggerAIDemo
+  } = useServiceNowData(true, 30000); // Auto-refresh every 30 seconds
+
   // Get the server with the highest risk score
-  const highestRiskServer = [...mockServers].sort((a, b) => b.riskScore - a.riskScore)[0];
+  const highestRiskServer = servers.length > 0 ? 
+    [...servers].sort((a, b) => b.riskScore - a.riskScore)[0] : null;
   
   // Get servers with predicted CPU spikes
-  const serversWithPredictedSpikes = mockServers.filter(server => 
-    server.cpuMetrics.some(metric => metric.predicted && metric.value > 85)
+  const serversWithPredictedSpikes = servers.filter(server => 
+    server.cpuMetrics && server.cpuMetrics.some(metric => metric.predicted && metric.value > 85)
   );
 
-  const simulateRemediation = () => {
-    toast({
-      title: 'Auto-remediation initiated',
-      description: `The ResilienceAI system has initiated auto-remediation for server ${highestRiskServer.name}.`,
-      variant: 'default',
-    });
+  const simulateRemediation = async () => {
+    if (highestRiskServer) {
+      await triggerAIDemo(highestRiskServer.id, 92);
+    } else {
+      // Fallback: trigger demo with test server
+      await triggerAIDemo('prod-db-01', 92);
+    }
   };
 
   return (
